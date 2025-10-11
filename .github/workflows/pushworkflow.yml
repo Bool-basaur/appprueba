@@ -30,20 +30,10 @@ jobs:
       - name: Build with Maven
         run: ./mvnw clean install
 
-  snyk:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Execute permission mvnw
-        run: chmod +x ./mvnw
-
       - name: Run Snyk Security Scan
         uses: snyk/actions@v1
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: test
+          command: test -d
           args: --org=bool-basaur
