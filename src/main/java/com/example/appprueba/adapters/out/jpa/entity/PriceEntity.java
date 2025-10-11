@@ -23,19 +23,14 @@ import java.time.LocalDateTime;
 @Builder
 public class PriceEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Integer brandId;
-
+    private Long brandId;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-
-    private Integer priceList;
-    private Integer productId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long priceList;
+    private Long productId;
     private Integer priority;
     private BigDecimal price;
-
     private String curr;
 }

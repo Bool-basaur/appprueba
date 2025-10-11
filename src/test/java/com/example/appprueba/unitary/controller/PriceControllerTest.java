@@ -2,58 +2,79 @@ package com.example.appprueba.unitary.controller;
 
 import com.example.appprueba.adapters.in.rest.Controller.PriceController;
 import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
+import com.example.appprueba.adapters.out.jpa.mapper.PriceMapper;
 import com.example.appprueba.application.port.in.PriceService;
 import com.example.appprueba.domain.model.Price;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.springframework.http.ResponseEntity;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PriceControllerTest {
 
+@WebMvcTest(PriceController.class)
+class PriceControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockitoBean
     private PriceService priceService;
-    private PriceController priceController;
 
-    @BeforeAll
-    void initAttributes(){
-        priceService = mock(PriceService.class);
-        priceController = new PriceController(priceService);
+    @MockitoBean
+    private PriceMapper priceMapper;
+
+    @Test
+    void shouldReturn200WithValidPrice() throws Exception {
+        // given
+        Price domainPrice = Price.builder()
+                .productId(35455L)
+                .brandId(1L)
+                .priceList(1L)
+                .price(BigDecimal.valueOf(35.50))
+                .build();
+
+        PriceResponseDTO dto = PriceResponseDTO.builder()
+                .productId(35455L)
+                .brandId(1L)
+                .priceList(1L)
+                .price(BigDecimal.valueOf(35.50))
+                .build();
+
+        // when
+        Mockito.when(priceService.getPriceByDateAndProductAndBrand(any(), any(), any()))
+                .thenReturn(Optional.of(domainPrice));
+
+        Mockito.when(priceMapper.toDto(domainPrice)).thenReturn(dto);
+
+        // then
+        mockMvc.perform(get("/prices")
+                        .param("date", "2020-06-14T10:00:00")
+                        .param("brandId", "1")
+                        .param("productId", "35455")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.price").value(35.50));
     }
 
     @Test
-    void shouldReturnRightPriceWhenFound() {
-     /*   LocalDateTime date = LocalDateTime.now();
-        long productId = 35455L;
-        long brandId = 1L;
+    void shouldReturn404WhenNoPriceFound() throws Exception {
+        Mockito.when(priceService.getPriceByDateAndProductAndBrand(any(), any(), any()))
+                .thenReturn(Optional.empty());
 
-        Price mockResponse = Price.builder()
-                                    .price(BigDecimal.valueOf(35.50))
-                                    .build();
-        when(priceService.getPriceByDateAndProductAndBrand(date, productId, brandId)).thenReturn(mockResponse);
-
-        ResponseEntity<PriceResponseDTO> response = priceController.getPrice(date, productId, brandId);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(mockResponse.getPrice(), response.getBody().getPrice());*/
-    }
-
-    @Test
-    void shouldReturn404WhenNotFound() {
-      /*  LocalDateTime date = LocalDateTime.now();
-        when(priceService.getPriceByDateAndProductAndBrand(any(), anyLong(), anyLong())).thenReturn(null);
-
-        ResponseEntity<PriceResponseDTO> response = priceController.getPrice(date, 123L, 1L);
-
-        assertEquals(404, response.getStatusCodeValue());*/
+        mockMvc.perform(get("/prices")
+                        .param("date", "2020-06-14T10:00:00")
+                        .param("brandId", "1")
+                        .param("productId", "35455"))
+                .andExpect(status().isNotFound());
     }
 }

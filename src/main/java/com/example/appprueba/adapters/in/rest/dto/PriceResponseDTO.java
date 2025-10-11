@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PriceResponseDTO {
 
-    private Integer productId;
-    private Integer brandId;
-    private Integer priceList;
+    private Long productId;
+    private Long brandId;
+    private Long priceList;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private BigDecimal price;

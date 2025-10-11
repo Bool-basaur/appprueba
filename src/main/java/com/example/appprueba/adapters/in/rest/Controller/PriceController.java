@@ -2,6 +2,7 @@ package com.example.appprueba.adapters.in.rest.Controller;
 
 
 import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
+import com.example.appprueba.adapters.out.jpa.mapper.PriceMapper;
 import com.example.appprueba.application.port.in.PriceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,13 +20,17 @@ import java.time.LocalDateTime;
 public class PriceController {
 
     private final PriceService priceService;
+    private final PriceMapper priceMapper;
 
     @GetMapping
     public ResponseEntity<PriceResponseDTO> getPrice(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date,
             @RequestParam Long brandId,
             @RequestParam Long productId
-    ) { //TODO llama al servicio
-        return ResponseEntity.ok(PriceResponseDTO.builder().build());
+    ) {
+        return priceService.getPriceByDateAndProductAndBrand(productId, brandId, date)
+                .map(priceMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

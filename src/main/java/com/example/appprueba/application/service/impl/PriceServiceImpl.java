@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,7 +15,7 @@ public class PriceServiceImpl implements PriceService {
     private final PriceRepositoryPort priceRepositoryPort;
 
     @Override
-    public Price getPriceByDateAndProductAndBrand(LocalDateTime date, Long productId, Long brandId) {
-        return null; //TODO llama al repositoryport
+    public Optional<Price> getPriceByDateAndProductAndBrand(Long productId, Long brandId, LocalDateTime date) {
+        return priceRepositoryPort.findApplicablePrice(productId, brandId, date);
     }
 }
