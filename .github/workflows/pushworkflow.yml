@@ -24,6 +24,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Execute permission mvnw
+        run: chmod +x ./mvnw
+
       - name: Build with Maven
         run: ./mvnw clean install
 
@@ -33,6 +36,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Execute permission mvnw
+        run: chmod +x ./mvnw
 
       - name: Run Snyk Security Scan
         uses: snyk/actions@v1
