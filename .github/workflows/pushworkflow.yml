@@ -35,5 +35,5 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: test -d
-          args: --org=bool-basaur
+          command: test
+          args: --org=bool-basaur -d
