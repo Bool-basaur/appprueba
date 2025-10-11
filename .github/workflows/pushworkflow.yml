@@ -34,6 +34,6 @@ jobs:
         uses: snyk/actions@v1
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          DEBUG: snyk*
         with:
           command: test
-          args: --org=bool-basaur -d
