@@ -26,3 +26,12 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
+
+      - name: Install Snyk
+        run: npm install -g snyk
+
+      - name: Authentication in Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk to check for vulnerabilities
+        run: snyk test --all-projects
