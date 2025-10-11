@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Prices API
+  version: 1.0.0
+  description: API REST de prueba que permite consultar el precio aplicable a un producto 
+    de una cadena en una fecha determinada.
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+tags:
+  - name: Prices
+    description: Endpoints para consulta de precios
+
+paths:
+  /api/prices:
+    get:
+      tags:
+        - Prices
+      summary: Consulta el precio aplicable de un producto para una cadena y fecha dadas
+      description: Devuelve la tarifa aplicable (PRICE_LIST) y su precio final (PRICE) 
+        para un producto y una cadena en una fecha concreta. Si varias tarifas coinciden en el rango, se aplica la de **mayor prioridad**.
+      parameters:
+        - name: applicationDate
+          in: query
+          required: true
+          description: Fecha y hora de aplicación en formato `2020-06-14-00.00.00`
+          schema:
+            type: string
+            format: date-time
+          example: "2020-06-14-00.00.00"
+        - name: productId
+          in: query
+          required: true
+          description: Identificador del producto
+          schema:
+            type: integer
+          example: 35455
+        - name: brandId
+          in: query
+          required: true
+          description: Identificador de la cadena (1 = ZARA)
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Precio aplicable encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponseDTO'
+              examples:
+                example1:
+                  summary: Ejemplo de respuesta exitosa
+                  value:
+                    productId: 35455
+                    brandId: 1
+                    priceList: 2
+                    startDate: "2020-06-14-00.00.00"
+                    endDate: "2020-12-31-23.59.59"
+                    price: 25.45
+                    curr: "EUR"
+        '400':
+          description: Parámetros inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: 400
+                message: "Formato de fecha inválido. Use (YYYY-MM-DDTHH:mm:ss)"
+        '404':
+          description: No se encontró ningún precio aplicable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: 404
+                message: "No price found for given parameters"
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: 500
+                message: "Unexpected error"
+
+components:
+  schemas:
+    PriceResponseDTO:
+      type: object
+      description: Precio aplicable
+      properties:
+        productId:
+          type: integer
+          example: 35455
+        brandId:
+          type: integer
+          example: 1
+        priceList:
+          type: integer
+          example: 2
+        startDate:
+          type: string
+          format: date-time
+          example: "2020-12-31-23.59.59"
+        endDate:
+          type: string
+          format: date-time
+          example: "2020-12-31-23.59.59"
+        price:
+          type: number
+          format: double
+          example: 25.45
+        curr:
+          type: string
+          example: "EUR"
+
+    ErrorResponse:
+      type: object
+      description: Error estándar
+      properties:
+        status:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: "No price found for given parameters"
