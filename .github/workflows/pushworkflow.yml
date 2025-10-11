@@ -30,10 +30,13 @@ jobs:
       - name: Build with Maven
         run: ./mvnw clean install
 
-      - name: Run Snyk Security Scan
+      - name: Run SnykScan
         uses: snyk/actions@v1
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          DEBUG: snyk*
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+            JAVA_HOME: ${{ env.JAVA_HOME }}
+            PATH: ${{ env.JAVA_HOME }}/bin:${{ env.PATH }}
+            DEBUG: snyk*
         with:
-          command: test
+            command: test
+            args: --org=bool-basaur
