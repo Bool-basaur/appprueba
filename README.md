@@ -11,7 +11,7 @@ Proyecto Java Spring Boot que contiene un endpoint para consultar el precio fina
 1. `mvn clean package`
 2. `mvn spring-boot:run`
     - La API escuchará en `http://localhost:8080`
-    - La base de datos se puede encontrar en `http://localhost:8080/h2-console`, y se accede con 
+    - La base de datos se puede encontrar en `http://localhost:8080/h2-console`, y se accede con la jdbc url `jdbc:h2:mem:pricesdb` y el usuario `root`
     - La url de api swagger es `http://localhost:8080/swagger-ui/index.html`
 
 ## Endpoint
