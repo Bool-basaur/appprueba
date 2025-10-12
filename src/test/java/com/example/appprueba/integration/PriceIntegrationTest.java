@@ -19,7 +19,7 @@ class PriceIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    void test1_shouldReturnPriceList1_at_14_10() throws Exception {
+    void shouldReturnPriceList1_at_14_10() throws Exception {
         mockMvc.perform(get("/prices")
                         .param("date", "2020-06-14T10:00:00")
                         .param("brandId", "1")
@@ -31,7 +31,7 @@ class PriceIntegrationTest {
     }
 
     @Test
-    void test2_shouldReturnPriceList2_at_14_16() throws Exception {
+    void shouldReturnPriceList2_at_14_16() throws Exception {
         mockMvc.perform(get("/prices")
                         .param("date", "2020-06-14T16:00:00")
                         .param("brandId", "1")
@@ -42,7 +42,7 @@ class PriceIntegrationTest {
     }
 
     @Test
-    void test3_shouldReturnPriceList1_at_14_21() throws Exception {
+    void shouldReturnPriceList1_at_14_21() throws Exception {
         mockMvc.perform(get("/prices")
                         .param("date", "2020-06-14T21:00:00")
                         .param("brandId", "1")
@@ -53,7 +53,7 @@ class PriceIntegrationTest {
     }
 
     @Test
-    void test4_shouldReturnPriceList3_at_15_10() throws Exception {
+    void shouldReturnPriceList3_at_15_10() throws Exception {
         mockMvc.perform(get("/prices")
                         .param("date", "2020-06-15T10:00:00")
                         .param("brandId", "1")
@@ -64,7 +64,7 @@ class PriceIntegrationTest {
     }
 
     @Test
-    void test5_shouldReturnPriceList4_at_16_21() throws Exception {
+    void shouldReturnPriceList4_at_16_21() throws Exception {
         mockMvc.perform(get("/prices")
                         .param("date", "2020-06-16T21:00:00")
                         .param("brandId", "1")
