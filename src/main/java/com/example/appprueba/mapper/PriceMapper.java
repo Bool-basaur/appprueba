@@ -1,4 +1,4 @@
-package com.example.appprueba.adapters.out.jpa.mapper;
+package com.example.appprueba.mapper;
 
 import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
 import com.example.appprueba.adapters.out.jpa.entity.PriceEntity;
@@ -7,6 +7,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+/**
+ * =============================================================================
+ * @Interface: PriceMapper
+ * @Layer: Cross-layer Utility (Mapping)
+ * @Description: Converts persistence entities, domain models, and DTOs by
+ *              using MapStruct.
+ * =============================================================================
+ * @Author Alex Jiménez Fernández
+ **/
 @Mapper(componentModel = "spring")
 public interface PriceMapper {
 

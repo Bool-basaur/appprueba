@@ -2,7 +2,7 @@ package com.example.appprueba.unitary.controller;
 
 import com.example.appprueba.adapters.in.rest.Controller.PriceController;
 import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
-import com.example.appprueba.adapters.out.jpa.mapper.PriceMapper;
+import com.example.appprueba.mapper.PriceMapper;
 import com.example.appprueba.application.port.in.PriceService;
 import com.example.appprueba.domain.model.Price;
 import org.junit.jupiter.api.Test;
@@ -68,9 +68,10 @@ class PriceControllerTest {
 
     @Test
     void shouldReturn404WhenNoPriceFound() throws Exception {
+        // when
         Mockito.when(priceService.getPriceByDateAndProductAndBrand(any(), any(), any()))
                 .thenReturn(Optional.empty());
-
+        //then
         mockMvc.perform(get("/prices")
                         .param("date", "2020-06-14T10:00:00")
                         .param("brandId", "1")

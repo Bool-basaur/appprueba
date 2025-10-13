@@ -9,6 +9,16 @@ import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * =============================================================================
+ * @Class: Price
+ * @Layer: Domain Model
+ * @Description: Represents the domain model for price information. It has the
+ *              details of the price for a specific product and brand within a
+ *              given date range.
+ * =============================================================================
+ * @Author Alex Jiménez Fernández
+ **/
 @Data
 @Builder
 @NoArgsConstructor

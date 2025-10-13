@@ -2,30 +2,30 @@ openapi: 3.0.3
 info:
   title: Prices API
   version: 1.0.0
-  description: API REST de prueba que permite consultar el precio aplicable a un producto 
-    de una cadena en una fecha determinada.
+  description: Test API REST that allows obtaining the applicable price of a product
+    for a brand at a specific date and time.
 
 servers:
   - url: http://localhost:8080
-    description: Servidor local
+    description: Local server
 
 tags:
   - name: Prices
-    description: Endpoints para consulta de precios
+    description: Endpoints for obtaining prices
 
 paths:
   /api/prices:
     get:
       tags:
         - Prices
-      summary: Consulta el precio aplicable de un producto para una cadena y fecha dadas
-      description: Devuelve la tarifa aplicable (PRICE_LIST) y su precio final (PRICE) 
-        para un producto y una cadena en una fecha concreta. Si varias tarifas coinciden en el rango, se aplica la de **mayor prioridad**.
+      summary: Retrieves the applicable price based on product ID, brand ID, and date.
+      description: Returns the price_list and the final price of a product and brand given a date.
+        If some price_list has the same date range, the one with the **highest priority** is applied.
       parameters:
         - name: applicationDate
           in: query
           required: true
-          description: Fecha y hora de aplicación en formato `2020-06-14-00.00.00`
+          description: Date and time with format `2020-06-14-00.00.00`
           schema:
             type: string
             format: date-time
@@ -33,27 +33,27 @@ paths:
         - name: productId
           in: query
           required: true
-          description: Identificador del producto
+          description: Product identifier
           schema:
             type: integer
           example: 35455
         - name: brandId
           in: query
           required: true
-          description: Identificador de la cadena (1 = ZARA)
+          description: Brand identifier
           schema:
             type: integer
           example: 1
       responses:
         '200':
-          description: Precio aplicable encontrado
+          description: Applicable price that was found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PriceResponseDTO'
               examples:
                 example1:
-                  summary: Ejemplo de respuesta exitosa
+                  summary: Example of successful response
                   value:
                     productId: 35455
                     brandId: 1
@@ -63,16 +63,16 @@ paths:
                     price: 25.45
                     curr: "EUR"
         '400':
-          description: Parámetros inválidos
+          description: Invalid parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 status: 400
-                message: "Formato de fecha inválido. Use (YYYY-MM-DDTHH:mm:ss)"
+                message: "Invalid parameters"
         '404':
-          description: No se encontró ningún precio aplicable
+          description: No applicable price was found
           content:
             application/json:
               schema:
@@ -81,14 +81,14 @@ paths:
                 status: 404
                 message: "No price found for given parameters"
         '500':
-          description: Error interno del servidor
+          description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 status: 500
-                message: "Unexpected error"
+                message: "Internal server error"
 
 components:
   schemas:

@@ -8,6 +8,14 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * =============================================================================
+ * @Class: PriceResponseDTO
+ * @Layer: Inbound Adapter (REST) — DTO
+ * @Description: Represents the DTO returned to clients via the REST API.
+ * =============================================================================
+ * @Author Alex Jiménez Fernández
+ **/
 @Data
 @Builder
 @AllArgsConstructor

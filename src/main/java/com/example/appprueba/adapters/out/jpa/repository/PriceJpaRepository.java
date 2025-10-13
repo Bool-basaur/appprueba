@@ -8,8 +8,26 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * =============================================================================
+ * @Interface: PriceJpaRepository
+ * @Layer: Outbound Adapter (Persistence) — Repository
+ * @Description: Extends JpaRepository to interact with the PriceEntity
+ *              in the database.
+ * =============================================================================
+ * @Author Alex Jiménez Fernández
+ **/
 public interface PriceJpaRepository extends JpaRepository<PriceEntity, Long> {
 
+    /**
+     * Custom query that finds the applicable price for a given product, brand, and date.
+     * The results are ordered by priority (descending).
+     *
+     * @param productId the product's ID
+     * @param brandId the brand's ID
+     * @param applicationDate the date
+     * @return List of PriceEntity
+     **/
     @Query("""
     SELECT p FROM PriceEntity p
     WHERE p.productId = :productId

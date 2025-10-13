@@ -51,11 +51,14 @@ class PriceServiceImplTest {
 
     @Test
     void shouldReturnEmptyWhenNotFound() {
+        // given
         when(repositoryPort.findApplicablePrice(any(), any(), any()))
                 .thenReturn(Optional.empty());
 
+        //when
         Optional<Price> result = service.getPriceByDateAndProductAndBrand(1L, 1L, LocalDateTime.now());
 
+        //then
         assertThat(result).isEmpty();
     }
 }

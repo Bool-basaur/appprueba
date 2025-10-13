@@ -14,6 +14,15 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * =========================================================================
+ * @Class: PriceEntity
+ * @Layer: Outbound Adapter (Persistence)
+ * @Description: Represents the JPA entity that maps the PRICES table in
+ *                  the database.
+ * ==========================================================================
+ * @Author Alex Jiménez Fernández
+ **/
 @Entity
 @Table(name = "PRICES")
 @Getter
@@ -27,7 +36,7 @@ public class PriceEntity {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long priceList;
     private Long productId;
     private Integer priority;

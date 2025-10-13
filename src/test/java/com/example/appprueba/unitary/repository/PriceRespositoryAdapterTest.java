@@ -1,22 +1,16 @@
 package com.example.appprueba.unitary.repository;
 import com.example.appprueba.adapters.out.jpa.entity.PriceEntity;
-import com.example.appprueba.adapters.out.jpa.mapper.PriceMapper;
+import com.example.appprueba.mapper.PriceMapper;
 import com.example.appprueba.adapters.out.jpa.repository.PriceJpaRepository;
-import com.example.appprueba.adapters.out.jpa.repository.PriceRepositoryAdapter;
-import com.example.appprueba.application.port.in.PriceService;
-import com.example.appprueba.domain.model.Price;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -44,10 +38,11 @@ class PriceRepositoryAdapterTest {
                 .curr("EUR")
                 .build();
 
+        // when
         when(priceJpaRepository.findTopByProductAndBrandAndDateOrderByPriorityDesc(any(), any(), any()))
                 .thenReturn(new ArrayList<>());
 
-        // when
+
         List<PriceEntity> result = priceJpaRepository.findTopByProductAndBrandAndDateOrderByPriorityDesc(35455L, 1L,
                 LocalDateTime.of(2020,6,14,16,0,0));
 
