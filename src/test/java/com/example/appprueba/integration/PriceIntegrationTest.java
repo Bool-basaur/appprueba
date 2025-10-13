@@ -78,8 +78,8 @@ class PriceIntegrationTest {
     void shouldReturn404WhenProductNotFound() throws Exception {
         mockMvc.perform(get("/prices")
                         .param("date", "2020-06-14T10:00:00")
-                        .param("brandId", "99")
-                        .param("productId", "99999"))
+                        .param("brandId", "12431235")
+                        .param("productId", "12351235"))
                 .andExpect(status().isNotFound());
     }
 }
