@@ -1,23 +1,41 @@
+# ========================== #
+# Spring Boot Maven Project  #
+# ========================== #
+
 HELP.md
 target/
-.mvn/wrapper/maven-wrapper.jar
+build/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+# ====== #
+# Maven  #
+# ====== #
+.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+
+# ===== #
+# IDEs  #
+# ===== #
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
+### Eclipse / STS ###
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
 
 ### NetBeans ###
 /nbproject/private/
@@ -25,9 +43,9 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# ================ #
+# Sonar / Linter   #
+# ================ #
+.sonar/
+.jacoco/
