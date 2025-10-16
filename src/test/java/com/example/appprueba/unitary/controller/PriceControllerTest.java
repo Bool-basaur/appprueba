@@ -1,6 +1,6 @@
 package com.example.appprueba.unitary.controller;
 
-import com.example.appprueba.adapters.in.rest.Controller.PriceController;
+import com.example.appprueba.adapters.in.rest.controller.PriceController;
 import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
 import com.example.appprueba.mapper.PriceMapper;
 import com.example.appprueba.application.port.in.PriceService;
