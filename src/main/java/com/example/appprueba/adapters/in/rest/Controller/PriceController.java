@@ -1,8 +1,8 @@
 package com.example.appprueba.adapters.in.rest.Controller;
 
 import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
-import com.example.appprueba.mapper.PriceMapper;
 import com.example.appprueba.application.port.in.PriceService;
+import com.example.appprueba.mapper.rest.PriceRestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 public class PriceController {
 
     private final PriceService priceService;
-    private final PriceMapper priceMapper;
+    private final PriceRestMapper priceRestMapper;
 
     /**
      *   Retrieves the applicable price based on product ID, brand ID, and date.
@@ -46,7 +46,7 @@ public class PriceController {
             @RequestParam Long productId
     ) {
         return priceService.getPriceByDateAndProductAndBrand(productId, brandId, date)
-                .map(priceMapper::toDto)
+                .map(priceRestMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
