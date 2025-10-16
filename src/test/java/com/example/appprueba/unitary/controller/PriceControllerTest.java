@@ -2,9 +2,9 @@ package com.example.appprueba.unitary.controller;
 
 import com.example.appprueba.adapters.in.rest.Controller.PriceController;
 import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
-import com.example.appprueba.mapper.PriceMapper;
 import com.example.appprueba.application.port.in.PriceService;
 import com.example.appprueba.domain.model.Price;
+import com.example.appprueba.mapper.rest.PriceRestMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ class PriceControllerTest {
     private PriceService priceService;
 
     @MockitoBean
-    private PriceMapper priceMapper;
+    private PriceRestMapper priceRestMapper;
 
     @Test
     void shouldReturn200WithValidPrice() throws Exception {
@@ -54,7 +54,7 @@ class PriceControllerTest {
         Mockito.when(priceService.getPriceByDateAndProductAndBrand(any(), any(), any()))
                 .thenReturn(Optional.of(domainPrice));
 
-        Mockito.when(priceMapper.toDto(domainPrice)).thenReturn(dto);
+        Mockito.when(priceRestMapper.toDto(domainPrice)).thenReturn(dto);
 
         // then
         mockMvc.perform(get("/prices")

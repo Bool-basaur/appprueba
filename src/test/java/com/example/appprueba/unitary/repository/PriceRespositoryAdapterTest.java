@@ -1,7 +1,7 @@
 package com.example.appprueba.unitary.repository;
 import com.example.appprueba.adapters.out.jpa.entity.PriceEntity;
-import com.example.appprueba.mapper.PriceMapper;
 import com.example.appprueba.adapters.out.jpa.repository.PriceJpaRepository;
+import com.example.appprueba.mapper.persistence.PricePersistenceMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -22,7 +22,7 @@ class PriceRepositoryAdapterTest {
     private PriceJpaRepository priceJpaRepository;
 
     @Mock
-    private PriceMapper priceMapper;
+    private PricePersistenceMapper pricePersistenceMapper;
 
     @Test
     void shouldMapEntityToDomain() {
