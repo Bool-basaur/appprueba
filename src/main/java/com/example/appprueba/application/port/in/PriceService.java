@@ -1,6 +1,6 @@
 package com.example.appprueba.application.port.in;
 
-import com.example.appprueba.domain.model.Price;
+import com.example.appprueba.domain.model.Prices;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -21,8 +21,8 @@ public interface PriceService {
      *
      * @param productId the product's ID
      * @param brandId the brand's ID
-     * @param date the date
+     * @param applicationDate the date
      * @return Optional of Price
      **/
-    Optional<Price> getPriceByDateAndProductAndBrand(Long productId, Long brandId, LocalDateTime date);
+    Optional<Prices> getPriceByDateAndProductAndBrand(Long productId, Long brandId, LocalDateTime applicationDate);
 }
