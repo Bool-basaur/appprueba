@@ -1,8 +1,9 @@
-package com.example.appprueba.adapters.in.rest.Controller;
+package com.example.appprueba.adapters.in.rest.controller;
 
 import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
-import com.example.appprueba.mapper.PriceMapper;
+import com.example.appprueba.adapters.in.rest.exception.PriceNotFoundException;
 import com.example.appprueba.application.port.in.PriceService;
+import com.example.appprueba.adapters.in.rest.mapper.PriceRestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +24,12 @@ import java.time.LocalDateTime;
  * @Author Alex Jiménez Fernández
  **/
 @RestController
-@RequestMapping("/prices")
+@RequestMapping("/api/v1/prices")
 @RequiredArgsConstructor
 public class PriceController {
 
     private final PriceService priceService;
-    private final PriceMapper priceMapper;
+    private final PriceRestMapper priceRestMapper;
 
     /**
      *   Retrieves the applicable price based on product ID, brand ID, and date.
@@ -37,7 +38,7 @@ public class PriceController {
      * @param brandId the brand's ID
      * @param productId the product's ID
      * @Return ResponseEntity of PriceResponseDTO. It returns the price if it was found,
-     *         with a 200 response. If price was not found, it returns a 404 response.
+     *         with a 200 response. If price was not found, it returns a PriceNotFoundException.
      **/
     @GetMapping
     public ResponseEntity<PriceResponseDTO> getPriceByDateAndProductAndBrand(
@@ -46,8 +47,8 @@ public class PriceController {
             @RequestParam Long productId
     ) {
         return priceService.getPriceByDateAndProductAndBrand(productId, brandId, date)
-                .map(priceMapper::toDto)
+                .map(priceRestMapper::toDto)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(PriceNotFoundException::new);
     }
 }

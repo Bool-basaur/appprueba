@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Price {
+public class Prices {
 
     private Long brandId;
     private LocalDateTime startDate;

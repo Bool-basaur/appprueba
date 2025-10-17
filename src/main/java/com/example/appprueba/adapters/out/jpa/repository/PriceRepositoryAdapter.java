@@ -1,8 +1,8 @@
 package com.example.appprueba.adapters.out.jpa.repository;
 
-import com.example.appprueba.mapper.PriceMapper;
-import com.example.appprueba.domain.model.Price;
+import com.example.appprueba.domain.model.Prices;
 import com.example.appprueba.application.port.out.PriceRepositoryPort;
+import com.example.appprueba.adapters.out.jpa.mapper.PricePersistenceMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +24,7 @@ import java.util.Optional;
 public class PriceRepositoryAdapter implements PriceRepositoryPort {
 
     private final PriceJpaRepository jpaRepository;
-    private final PriceMapper priceMapper;
+    private final PricePersistenceMapper pricePersistenceMapper;
 
     /**
      * Retrieves the applicable price based on product ID, brand ID, and date.
@@ -36,11 +36,9 @@ public class PriceRepositoryAdapter implements PriceRepositoryPort {
      * @return Optional of Price.
      **/
     @Override
-    public Optional<Price> findApplicablePrice(Long productId, Long brandId, LocalDateTime applicationDate) {
+    public Optional<Prices> findApplicablePrice(Long productId, Long brandId, LocalDateTime applicationDate) {
         return jpaRepository
-                .findTopByProductAndBrandAndDateOrderByPriorityDesc(productId, brandId, applicationDate)
-                .stream()
-                .findFirst()
-                .map(priceMapper::toDomain);
+        .findTopByProductIdAndBrandIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(productId, brandId, applicationDate, applicationDate)
+        .map(pricePersistenceMapper::toDomain);
     }
 }
