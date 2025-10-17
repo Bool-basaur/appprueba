@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:pricesdb;DB_CLOSE_DELAY=-1;MODE=Oracle
+    url: jdbc:h2:mem:pricesdb;DB_CLOSE_DELAY=-1;MODE=Oracle;
     driver-class-name: org.h2.Driver
     username: root
     password:
@@ -14,8 +14,9 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
+      platform: h2
+      schema-locations: classpath:/schema.sql
+      data-locations: classpath:/data.sql
   h2:
     console:
       enabled: true
@@ -23,7 +24,6 @@ spring:
 
 server:
   port: 8081
-
 logging:
   level:
     root: DEBUG

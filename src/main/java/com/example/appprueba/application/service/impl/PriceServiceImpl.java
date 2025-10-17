@@ -2,7 +2,7 @@ package com.example.appprueba.application.service.impl;
 
 import com.example.appprueba.application.port.in.PriceService;
 import com.example.appprueba.application.port.out.PriceRepositoryPort;
-import com.example.appprueba.domain.model.Price;
+import com.example.appprueba.domain.model.Prices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +32,7 @@ public class PriceServiceImpl implements PriceService {
      * @return Optional of Price
      **/
     @Override
-    public Optional<Price> getPriceByDateAndProductAndBrand(Long productId, Long brandId, LocalDateTime date) {
+    public Optional<Prices> getPriceByDateAndProductAndBrand(Long productId, Long brandId, LocalDateTime date) {
         return priceRepositoryPort.findApplicablePrice(productId, brandId, date);
     }
 }

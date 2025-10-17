@@ -15,10 +15,10 @@ Proyecto Java Spring Boot que contiene un endpoint para consultar el precio fina
     - La url de api swagger es `http://localhost:8080/swagger-ui/index.html`
 
 ## Endpoint
-`GET /api/prices?applicationDate={ISO_DATETIME}&brandId={brand_id}&productId={product_id}`
+`GET /api/v1/prices?applicationDate={ISO_DATETIME}&brandId={brand_id}&productId={product_id}`
 
 Ejemplo:
-`/api/prices?date=2020-06-16T21:00:00&productId=35455&brandId=1`
+`/api/v1/prices?date=2020-06-16T21:00:00&productId=35455&brandId=1`
 
 Respuesta 200:
 ```json

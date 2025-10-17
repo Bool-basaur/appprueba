@@ -1,7 +1,7 @@
-package com.example.appprueba.mapper.rest;
+package com.example.appprueba.adapters.in.rest.mapper;
 
 import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
-import com.example.appprueba.domain.model.Price;
+import com.example.appprueba.domain.model.Prices;
 import org.mapstruct.Mapper;
 
 /**
@@ -15,7 +15,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PriceRestMapper {
 
-    PriceResponseDTO toDto(Price price);
+    PriceResponseDTO toDto(Prices price);
 
-    Price toDomain(PriceResponseDTO dto);
+    Prices toDomain(PriceResponseDTO dto);
 }
