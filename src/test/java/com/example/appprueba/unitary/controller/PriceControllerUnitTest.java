@@ -77,6 +77,39 @@ class PriceControllerUnitTest {
     }
 
     @Test
+    @DisplayName("400 Bad Request when a not null parameter is missing")
+    void shouldReturn400WhenMissingParameter() throws Exception {
+        //given
+
+        //when
+
+        //then
+        mockMvc.perform(get("/api/v1/prices")
+                        .param("date", "2020-06-14T10:00:00")
+                        .param("brandId", "1"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").exists());
+    }
+
+    @Test
+    @DisplayName("400 Bad Request when brandId or productId is negative")
+    void shouldReturn400WhenNegativeParameter() throws Exception {
+        //given
+
+        //when
+
+        //then
+        mockMvc.perform(get("/api/v1/prices")
+                        .param("date", "2020-06-14T10:00:00")
+                        .param("brandId", "-1")
+                        .param("productId", "35455"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Validation Failed"))
+                .andExpect(jsonPath("$.message").exists());
+    }
+
+    @Test
     @DisplayName("Check that 404 response is returned when the price is not found")
     void shouldReturn404WhenPriceNotFound() throws Exception {
         //given

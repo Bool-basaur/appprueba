@@ -6,17 +6,23 @@ spring:
     password:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: false
     properties:
       hibernate:
         format_sql: true
+        cache:
+          use_second_level_cache: false
+      javax:
+        cache:
+          provider: org.hibernate.cache.internal.NoCachingRegionFactory
+          uri: none
   sql:
     init:
       mode: always
       platform: h2
-      schema-locations: classpath:/schema.sql
-      data-locations: classpath:/data.sql
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
   h2:
     console:
       enabled: true
