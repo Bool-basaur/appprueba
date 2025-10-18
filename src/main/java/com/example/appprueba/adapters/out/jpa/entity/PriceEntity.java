@@ -1,7 +1,8 @@
 package com.example.appprueba.adapters.out.jpa.entity;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
