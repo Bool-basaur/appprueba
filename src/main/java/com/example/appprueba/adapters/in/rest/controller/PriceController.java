@@ -4,9 +4,12 @@ import com.example.appprueba.adapters.in.rest.dto.PriceResponseDTO;
 import com.example.appprueba.adapters.in.rest.exception.PriceNotFoundException;
 import com.example.appprueba.application.port.in.PriceService;
 import com.example.appprueba.adapters.in.rest.mapper.PriceRestMapper;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +29,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/api/v1/prices")
 @RequiredArgsConstructor
+@Validated
 public class PriceController {
 
     private final PriceService priceService;
@@ -42,9 +46,9 @@ public class PriceController {
      **/
     @GetMapping
     public ResponseEntity<PriceResponseDTO> getPriceByDateAndProductAndBrand(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date,
-            @RequestParam Long brandId,
-            @RequestParam Long productId
+            @RequestParam @NotNull(message = "Date must be provided") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date,
+            @RequestParam @NotNull(message = "Brand ID must be provided") @Positive(message = "Brand ID must be positive") Long brandId,
+            @RequestParam @NotNull(message = "Product ID must be provided") @Positive(message = "Product ID must be positive") Long productId
     ) {
         return priceService.getPriceByDateAndProductAndBrand(productId, brandId, date)
                 .map(priceRestMapper::toDto)
