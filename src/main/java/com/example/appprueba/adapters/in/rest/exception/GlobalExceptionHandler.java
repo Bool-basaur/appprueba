@@ -1,5 +1,7 @@
 package com.example.appprueba.adapters.in.rest.exception;
 
+import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,9 +22,9 @@ import java.util.Map;
  * =============================================================================
  * @Author Alex Jiménez Fernández
  **/
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 
     /**
@@ -60,6 +62,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleUnexpectedError(Exception ex) {
         log.error("Unexpected internal error", ex);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", ex.getMessage());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
+        log.warn("Validation failed: {}", ex.getMessage());
+        String message = ex.getConstraintViolations()
+                .stream()
+                .map(v -> v.getPropertyPath() + " " + v.getMessage())
+                .reduce((m1, m2) -> m1 + "; " + m2)
+                .orElse(ex.getMessage());
+
+        return buildResponse(HttpStatus.BAD_REQUEST, "Validation Failed", message);
     }
 
     /**
