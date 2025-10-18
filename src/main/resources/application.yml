@@ -7,6 +7,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+      cache:
+        use_second_level_cache: true
+        region:
+          factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+      javax:
+        cache:
+          provider: org.ehcache.jsr107.EhcacheCachingProvider
+          uri: classpath:cache.xml
     show-sql: false
     properties:
       hibernate:
