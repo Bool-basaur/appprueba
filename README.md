@@ -4,7 +4,7 @@ Proyecto Java Spring Boot que contiene un endpoint para consultar el precio fina
 
 ## Versiones y herramientas utilizadas
 - Java 21
-- Spring boot 3.5.6**
+- Spring boot 3.5.6
 - Maven
 - Base de datos H2 (en memoria)
 - Documentación: OpenAPI / Swagger
