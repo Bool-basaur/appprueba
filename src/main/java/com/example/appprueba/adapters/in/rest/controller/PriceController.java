@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 import java.time.LocalDateTime;
 
@@ -27,7 +29,7 @@ import java.time.LocalDateTime;
  * @Author Alex Jiménez Fernández
  **/
 @RestController
-@RequestMapping("/api/v1/prices")
+@RequestMapping("/brands/{brandId}/products/{productId}/prices")
 @RequiredArgsConstructor
 @Validated
 public class PriceController {
@@ -46,9 +48,12 @@ public class PriceController {
      **/
     @GetMapping
     public ResponseEntity<PriceResponseDTO> getPriceByDateAndProductAndBrand(
-            @RequestParam @NotNull(message = "Date must be provided") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date,
-            @RequestParam @NotNull(message = "Brand ID must be provided") @Positive(message = "Brand ID must be positive") Long brandId,
-            @RequestParam @NotNull(message = "Product ID must be provided") @Positive(message = "Product ID must be positive") Long productId
+            @PathVariable @NotNull(message = "Brand ID must be provided")
+            @Positive(message = "Brand ID must be positive") Long brandId,
+            @PathVariable @NotNull(message = "Product ID must be provided")
+            @Positive(message = "Product ID must be positive") Long productId,
+            @RequestParam @NotNull(message = "Date must be provided")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date
     ) {
         return priceService.getPriceByDateAndProductAndBrand(productId, brandId, date)
                 .map(priceRestMapper::toDto)

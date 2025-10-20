@@ -16,21 +16,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class PerformanceTest {
+class PerformanceTest {
+    private static final long BRAND_ID = 1;
+    private static final long PRODUCT_ID = 35455;
+
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @DisplayName("Non functional test that checks that performance works as expected")
-    void measureEachRequest() throws Exception {
+    void measureEachRequest() {
         IntStream.range(0, 100)
                 .forEach(i -> {
                     try {
                         long start = System.nanoTime();
-                        mockMvc.perform(get("/api/v1/prices")
-                                        .param("date", "2020-06-14T10:00:00")
-                                        .param("brandId", "1")
-                                        .param("productId", "35455"))
+                        mockMvc.perform(get("/brands/" + BRAND_ID + "/products/" + PRODUCT_ID + "/prices")
+                                        .param("date", "2020-06-14T10:00:00"))
                                 .andExpect(status().isOk());
                         long end = System.nanoTime();
                         System.out.println("Request " + i + " took " + (end - start) / 1_000_000 + " ms");

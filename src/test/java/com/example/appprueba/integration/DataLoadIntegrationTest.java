@@ -13,12 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("test")
 class DataLoadIntegrationTest {
 
+    private static final String SELECT_ALL_QUERY = "SELECT COUNT(*) FROM PRICES";
+
     @Autowired
     JdbcTemplate jdbcTemplate;
     @Test
     @DisplayName("Check if the database has loaded all the initial prices")
     void dataLoaded() {
-        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM PRICES", Integer.class);
+        Integer count = jdbcTemplate.queryForObject(SELECT_ALL_QUERY, Integer.class);
         assertEquals(4, count);
     }
 }
