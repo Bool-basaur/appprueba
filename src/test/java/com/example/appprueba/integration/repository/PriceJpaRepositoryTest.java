@@ -15,6 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 class PriceJpaRepositoryTest {
+    private static final long BRAND_ID = 1L;
+    private static final long PRODUCT_ID = 35455L;
 
     @Autowired
     private PriceJpaRepository priceJpaRepository;
@@ -26,7 +28,7 @@ class PriceJpaRepositoryTest {
 
         Optional<PriceEntity> price = priceJpaRepository
                 .findTopByProductIdAndBrandIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
-                        35455L, 1L, queryDate, queryDate);
+                        PRODUCT_ID, BRAND_ID, queryDate, queryDate);
 
         assertThat(price).isPresent();
         assertThat(price.get().getPriority()).isZero();
@@ -40,7 +42,7 @@ class PriceJpaRepositoryTest {
 
         Optional<PriceEntity> price = priceJpaRepository
                 .findTopByProductIdAndBrandIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
-                        35455L, 1L, queryDate, queryDate);
+                        PRODUCT_ID, BRAND_ID, queryDate, queryDate);
 
         assertThat(price).isPresent();
         assertThat(price.get().getPriority()).isEqualTo(1);
@@ -54,7 +56,7 @@ class PriceJpaRepositoryTest {
 
         Optional<PriceEntity> price = priceJpaRepository
                 .findTopByProductIdAndBrandIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
-                        35455L, 1L, queryDate, queryDate);
+                        PRODUCT_ID, BRAND_ID, queryDate, queryDate);
 
         assertThat(price).isPresent();
         assertThat(price.get().getPriority()).isEqualTo(1);
@@ -68,7 +70,7 @@ class PriceJpaRepositoryTest {
 
         Optional<PriceEntity> price = priceJpaRepository
                 .findTopByProductIdAndBrandIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
-                        35455L, 1L, queryDate, queryDate);
+                        PRODUCT_ID, BRAND_ID, queryDate, queryDate);
 
         assertThat(price).isEmpty();
     }

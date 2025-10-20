@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -27,6 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(GlobalExceptionHandler.class)
 class PriceControllerUnitTest {
 
+    private static final String BASE_PATH = "/brands/{brandId}/products/{productId}/prices";
+    private static final String BRAND_ID = "1";
+    private static final String PRODUCT_ID = "35455";
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -39,23 +44,17 @@ class PriceControllerUnitTest {
     @Test
     @DisplayName("Check that 200 response is returned after a successful request")
     void shouldReturn200WithValidPrice() throws Exception {
-        // given
+        //given
         Prices domainPrice = createDomainPrice();
-
         PriceResponseDTO dto = createPriceResponseDTO();
 
-        // when
+        //when
         when(priceService.getPriceByDateAndProductAndBrand(any(), any(), any()))
                 .thenReturn(Optional.of(domainPrice));
-
         when(priceRestMapper.toDto(domainPrice)).thenReturn(dto);
 
-        // then
-        mockMvc.perform(get("/api/v1/prices")
-                        .param("date", "2020-06-14T10:00:00")
-                        .param("brandId", "1")
-                        .param("productId", "35455")
-                        .contentType(MediaType.APPLICATION_JSON))
+        //then
+        performGet("2020-06-14T10:00:00")
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.price").value(35.50));
     }
@@ -67,10 +66,7 @@ class PriceControllerUnitTest {
         //when
 
         //then
-        mockMvc.perform(get("/api/v1/prices")
-                        .param("date", "sdfgsdfg")
-                        .param("brandId", "534sgdf")
-                        .param("productId", "43sgzad"))
+        performGet("sdfgsdfg")
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("Bad Request"))
                 .andExpect(jsonPath("$.message").exists());
@@ -84,9 +80,7 @@ class PriceControllerUnitTest {
         //when
 
         //then
-        mockMvc.perform(get("/api/v1/prices")
-                        .param("date", "2020-06-14T10:00:00")
-                        .param("brandId", "1"))
+        mockMvc.perform(get(BASE_PATH, BRAND_ID, PRODUCT_ID))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("Bad Request"))
                 .andExpect(jsonPath("$.message").exists());
@@ -100,10 +94,9 @@ class PriceControllerUnitTest {
         //when
 
         //then
-        mockMvc.perform(get("/api/v1/prices")
-                        .param("date", "2020-06-14T10:00:00")
-                        .param("brandId", "-1")
-                        .param("productId", "35455"))
+        mockMvc.perform(get(BASE_PATH, BRAND_ID, -1)
+                .param("date", "2020-06-14T10:00:00")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("Validation Failed"))
                 .andExpect(jsonPath("$.message").exists());
@@ -119,10 +112,7 @@ class PriceControllerUnitTest {
                 .thenReturn(Optional.empty());
 
         //then
-        mockMvc.perform(get("/api/v1/prices")
-                        .param("date", "2020-06-14T10:00:00")
-                        .param("brandId", "1")
-                        .param("productId", "35455"))
+        performGet("2020-06-14T10:00:00")
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").value("Price Not Found"))
                 .andExpect(jsonPath("$.message").value("No price found for the given parameters"));
@@ -142,14 +132,16 @@ class PriceControllerUnitTest {
         when(priceRestMapper.toDto(any())).thenThrow(new RuntimeException("map error"));
 
         // then
-        mockMvc.perform(get("/api/v1/prices")
-                        .param("date", "2020-06-14T10:00:00")
-                        .param("brandId", "1")
-                        .param("productId", "35455")
-                        .contentType(MediaType.APPLICATION_JSON))
+        performGet("2020-06-14T10:00:00")
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.error").value("Internal Server Error"))
                 .andExpect(jsonPath("$.message").value("map error"));
+    }
+
+    private ResultActions performGet(String date) throws Exception {
+        return mockMvc.perform(get(BASE_PATH, BRAND_ID, PRODUCT_ID)
+                .param("date", date)
+                .contentType(MediaType.APPLICATION_JSON));
     }
 
     private Prices createDomainPrice() {
