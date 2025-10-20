@@ -4,8 +4,10 @@ Proyecto Java Spring Boot que contiene un endpoint para consultar el precio fina
 
 ## Versiones y herramientas utilizadas
 - Java 21
-- Spring boot 3.5.6
+- Spring boot 3.5.6**
 - Maven
+- Base de datos H2 (en memoria)
+- Documentación: OpenAPI / Swagger
 
 ## Ejecución
 1. `mvn clean package`
@@ -15,10 +17,10 @@ Proyecto Java Spring Boot que contiene un endpoint para consultar el precio fina
     - La url de api swagger es `http://localhost:8080/swagger-ui/index.html`
 
 ## Endpoint
-`GET /api/v1/prices?applicationDate={ISO_DATETIME}&brandId={brand_id}&productId={product_id}`
+`GET /api/v1/brands/{brandId}/products/{productId}/prices?date={ISO_DATETIME}`
 
 Ejemplo:
-`/api/v1/prices?date=2020-06-16T21:00:00&productId=35455&brandId=1`
+`GET /api/v1/brands/1/products/35455/prices?date=2020-06-16T21:00:00`
 
 Respuesta 200:
 ```json

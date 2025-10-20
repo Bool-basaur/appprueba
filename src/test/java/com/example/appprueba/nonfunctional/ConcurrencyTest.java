@@ -15,7 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class ConcurrencyTest {
-
+    private static final long BRAND_ID = 1L;
+    private static final long PRODUCT_ID = 35455L;
     @Autowired
     private PriceService priceService;
 
@@ -31,7 +32,7 @@ class ConcurrencyTest {
         for (int i = 0; i < threadCount; i++) {
             executor.submit(() -> {
                 try {
-                    var result = priceService.getPriceByDateAndProductAndBrand(35455L, 1L, date);
+                    var result = priceService.getPriceByDateAndProductAndBrand(PRODUCT_ID, BRAND_ID, date);
                     assertThat(result).isNotNull();
                 } finally {
                     latch.countDown();
